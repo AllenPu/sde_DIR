@@ -132,6 +132,11 @@ if __name__ == '__main__':
     #
     label_space = np.unique(train_labels).tolist()
     ts = torch.Tensor(label_space)
+    ##################
+    #
+    # how to construct the y0
+    #
+    ###################
     ys = torchsde.sdeint(sde, y0, ts, method='ito')
     #
     opt_regression = optim.Adam(model_regression.parameters(), lr=1e-3, weight_decay=1e-4)
