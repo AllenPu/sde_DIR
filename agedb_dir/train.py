@@ -101,6 +101,13 @@ def train_one_epoch(model, train_loader, opt):
         x,y,w = x.to(device), y.to(device), w.to(device)
         y_pred, _ = model(x)
         #
+        #############
+        #
+        # construct the trajectory by prototypes
+        #
+        ############3
+        ys = torchsde.sdeint(sde, y0, ts, method='ito')
+        #
         loss_mse = torch.mean(torch.abs(y -  y_pred)**2)
         # LDS
         #loss_mse = torch.mean(loss_mse * w.expand_as(loss_mse))
@@ -132,13 +139,11 @@ if __name__ == '__main__':
     #
     label_space = np.unique(train_labels).tolist()
     ts = torch.Tensor(label_space)
+    #################
+    #
+    # how to construct the y0 《------ warm up？
+    #
     ##################
-    #
-    # how to construct the y0
-    #
-    ###################
-    ys = torchsde.sdeint(sde, y0, ts, method='ito')
-    #
     opt_regression = optim.Adam(model_regression.parameters(), lr=1e-3, weight_decay=1e-4)
     opt_linear = optim.Adam(model_linear.parameters(), lr=1e-3, weight_decay=1e-4)
     #
