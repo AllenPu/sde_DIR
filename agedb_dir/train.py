@@ -130,11 +130,13 @@ if __name__ == '__main__':
     train_loader, val_loader, test_loader, train_labels, diff_shots = load_datasets(args)
     maj_shot, med_shot, few_shot = diff_shots
     #
+    ts = torch.linspace(0, 1, label_space)
+    #
     opt_regression = optim.Adam(model_regression.parameters(), lr=1e-3, weight_decay=1e-4)
     opt_linear = optim.Adam(model_linear.parameters(), lr=1e-3, weight_decay=1e-4)
     #
     if not args.resume:
         for e in tqdm(range(args.epoch)):
             model_regression = train_one_epoch(model_regression, train_loader, opt_regression)
-    print('==================Before SFT===================')
+    print(f'==================Before SFT===================')
    
