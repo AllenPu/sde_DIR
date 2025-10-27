@@ -130,7 +130,9 @@ if __name__ == '__main__':
     train_loader, val_loader, test_loader, train_labels, diff_shots = load_datasets(args)
     maj_shot, med_shot, few_shot = diff_shots
     #
-    ts = torch.linspace(0, 1, label_space)
+    label_space = np.unique(train_labels).tolist()
+    ts = torch.Tensor(label_space)
+    ys = torchsde.sdeint(sde, y0, ts, method='ito')
     #
     opt_regression = optim.Adam(model_regression.parameters(), lr=1e-3, weight_decay=1e-4)
     opt_linear = optim.Adam(model_linear.parameters(), lr=1e-3, weight_decay=1e-4)
