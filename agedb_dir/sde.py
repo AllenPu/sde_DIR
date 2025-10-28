@@ -6,7 +6,7 @@ class SDE(torch.nn.Module):
     sde_type = 'ito'
 
     def __init__(self):
-        super().__init__(batch_size=1, state_size=512, brownian_size=1)
+        super().__init__(batch_size=1, state_size=512, brownian_size=128)
         #
         self.batch_size, self.state_size, self.brownian_size = batch_size, state_size, brownian_size
         #
@@ -24,3 +24,7 @@ class SDE(torch.nn.Module):
         return self.sigma(y).view(self.batch_size, 
                                   self.state_size, 
                                   self.brownian_size)
+
+
+
+
